@@ -1,0 +1,5 @@
+{
+  "name": "Copy of H&J Cakes Invoice Generator",
+  "description": "A custom invoice generator for H&J Cakes with real-time editing, automatic calculations, and PDF export capabilities.",
+  "requestFramePermissions": []
+}
