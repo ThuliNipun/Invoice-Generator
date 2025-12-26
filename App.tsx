@@ -42,7 +42,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col md:flex-row">
+    <div className="min-h-screen bg-gray-100 flex flex-col md:flex-row print:block print:bg-white">
       {/* Editor Panel - Hidden when printing */}
       <div className="w-full md:w-96 flex-shrink-0 h-auto md:h-screen md:sticky top-0 z-10 print:hidden border-b md:border-b-0 md:border-r border-gray-200">
         <EditorPanel 
@@ -53,13 +53,13 @@ const App: React.FC = () => {
       </div>
 
       {/* Preview Area */}
-      <div className="flex-grow p-4 md:p-8 overflow-auto bg-gray-500 print:p-0 print:bg-white print:overflow-visible">
+      <div className="flex-grow p-4 md:p-8 overflow-auto bg-gray-500 print:p-0 print:bg-white print:overflow-visible print:block">
         <div className="print:hidden mb-4 text-white text-center text-sm opacity-80">
           Preview (A4 Size)
         </div>
         
-        {/* The Invoice Paper */}
-        <div className="mx-auto shadow-2xl print:shadow-none print:w-full print:absolute print:top-0 print:left-0">
+        {/* The Invoice Paper Wrapper */}
+        <div className="mx-auto shadow-2xl print:shadow-none print:mx-0 print:w-full">
           <InvoicePreview 
             data={data} 
             calculateTotal={calculateTotal} 

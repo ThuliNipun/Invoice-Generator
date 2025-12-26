@@ -40,38 +40,65 @@
           margin: 0;
         }
         
-        body {
-          -webkit-print-color-adjust: exact;
-          print-color-adjust: exact;
+        html, body {
           margin: 0;
           padding: 0;
           background-color: white;
+          width: 210mm;
+          height: 100%;
         }
 
-        /* Hide UI elements */
-        body > *:not(#root) {
-          display: none;
+        /* Hide everything by default */
+        body * {
+          visibility: hidden;
         }
-        
-        #root {
-            display: block;
+
+        /* Make root and necessary wrappers visible and flow naturally */
+        #root, #root * {
+          visibility: visible;
+        }
+
+        /* Hide the editor panel explicitly */
+        .print\:hidden {
+          display: none !important;
+        }
+
+        /* Reset the main layout containers to block to prevent flex scaling issues */
+        .min-h-screen, .flex-col, .flex-grow {
+          display: block !important;
+          height: auto !important;
+          width: 100% !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          overflow: visible !important;
         }
 
         /* Target the specific preview container */
         #invoice-preview {
+          visibility: visible !important;
           width: 210mm !important;
           min-height: 297mm !important;
-          height: auto !important;
-          margin: 0 auto !important;
-          padding: 15mm !important;
+          margin: 0 !important;
+          padding: 10mm 15mm !important; /* Safe printing padding */
           overflow: visible !important;
           background-color: #fdfbf7 !important;
-          position: relative !important;
           box-shadow: none !important;
+          position: absolute; /* Ensures it starts at top-left */
+          top: 0;
+          left: 0;
+          
+          /* Ensure colors print exactly as seen */
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
         }
         
-        /* Ensure table rows don't break awkwardly (optional) */
+        /* Prevent page breaks inside rows */
         tr, .item-row {
+          page-break-inside: avoid;
+        }
+        
+        /* Ensure footer/payment section stays together if possible */
+        .break-inside-avoid {
           page-break-inside: avoid;
         }
       }

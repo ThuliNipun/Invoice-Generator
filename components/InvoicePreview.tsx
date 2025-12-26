@@ -13,11 +13,11 @@ export const InvoicePreview: React.FC<InvoicePreviewProps> = ({ data, calculateT
   return (
     <div 
       id="invoice-preview"
-      className="w-[210mm] min-h-[297mm] mx-auto bg-[#fdfbf7] p-8 md:p-12 relative shadow-lg text-gray-800 flex flex-col"
+      className="w-[210mm] min-h-[297mm] mx-auto bg-[#fdfbf7] p-12 relative shadow-lg text-gray-800 flex flex-col print:mx-0 print:p-8"
     >
       
       {/* Header / Logo */}
-      <div className="flex flex-col items-center justify-center mb-10">
+      <div className="flex flex-col items-center justify-center mb-8">
         {data.logoSrc ? (
             <img 
                 src={data.logoSrc} 
@@ -62,7 +62,7 @@ export const InvoicePreview: React.FC<InvoicePreviewProps> = ({ data, calculateT
       {/* Items Table - This section grows */}
       <div className="flex-grow mb-8">
         {/* Table Header */}
-        <div className="bg-brand-primary text-white rounded-full px-8 py-3 grid grid-cols-12 gap-4 font-semibold text-lg mb-6 print:bg-brand-primary print:text-white print-color-adjust-exact">
+        <div className="bg-brand-primary text-white rounded-full px-6 py-3 grid grid-cols-12 gap-4 font-semibold text-lg mb-6 print:bg-brand-primary print:text-white print-color-adjust-exact">
           <div className="col-span-5 pl-2">Description</div>
           <div className="col-span-3 text-right">Price</div>
           <div className="col-span-2 text-center">Quantity</div>
@@ -107,7 +107,7 @@ export const InvoicePreview: React.FC<InvoicePreviewProps> = ({ data, calculateT
         <div className="flex flex-col md:flex-row gap-8 items-end border-t-2 border-brand-primary/20 pt-8">
           
           {/* Payment Details Container */}
-          <div className="w-full md:w-1/2 relative border-2 border-brand-primary rounded-[2rem] rounded-bl-none p-6 bg-white/50">
+          <div className="w-full md:w-1/2 relative border-2 border-brand-primary rounded-[2rem] rounded-bl-none p-6 bg-white/50 print:bg-transparent">
               <div className="flex items-center gap-3 mb-4">
                   <h3 className="text-2xl font-bold text-black">Payment Detail:</h3>
                   <div className="bg-[#005b9f] text-white text-[10px] font-bold px-2 py-1 rounded select-none print-color-adjust-exact">
