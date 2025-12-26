@@ -1,7 +1,19 @@
 import React, { useState } from 'react';
 import { EditorPanel } from './components/EditorPanel';
 import { InvoicePreview } from './components/InvoicePreview';
-import { InvoiceState } from './types';
+import { InvoiceState, InvoiceLayout } from './types';
+
+// Default positions optimized for A4 width (~794px)
+const DEFAULT_LAYOUT: InvoiceLayout = {
+  logo: { x: 260, y: 40 },
+  meta: { x: 40, y: 180 },
+  customer: { x: 420, y: 180 },
+  table: { x: 40, y: 320 },
+  total: { x: 440, y: 550 },
+  terms: { x: 40, y: 650 },
+  payment: { x: 40, y: 750 },
+  company: { x: 450, y: 750 }
+};
 
 const INITIAL_STATE: InvoiceState = {
   invoice: {
@@ -27,7 +39,9 @@ const INITIAL_STATE: InvoiceState = {
     phone: '+94 777 00 13 14',
     email: 'thilinitharangi.b@gmail.com'
   },
-  logoSrc: '' // Start with no custom logo
+  logoSrc: '',
+  enableCustomLayout: false,
+  layout: DEFAULT_LAYOUT
 };
 
 const App: React.FC = () => {
@@ -54,8 +68,9 @@ const App: React.FC = () => {
 
       {/* Preview Area */}
       <div className="flex-grow p-4 md:p-8 overflow-auto bg-gray-500 print:p-0 print:bg-white print:overflow-visible print:block">
-        <div className="print:hidden mb-4 text-white text-center text-sm opacity-80">
-          Preview (A4 Size)
+        <div className="print:hidden mb-4 text-white text-center text-sm opacity-80 flex justify-center gap-4">
+           <span>Preview (A4 Size)</span>
+           {data.enableCustomLayout && <span className="bg-yellow-500 text-black px-2 rounded text-xs font-bold flex items-center">Custom Layout Active</span>}
         </div>
         
         {/* The Invoice Paper Wrapper */}
@@ -63,6 +78,12 @@ const App: React.FC = () => {
           <InvoicePreview 
             data={data} 
             calculateTotal={calculateTotal} 
+            onUpdateLayout={(key, x, y) => {
+              setData(prev => ({
+                ...prev,
+                layout: { ...prev.layout, [key]: { x, y } }
+              }));
+            }}
           />
         </div>
       </div>

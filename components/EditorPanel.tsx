@@ -1,6 +1,6 @@
 import React from 'react';
 import { InvoiceState, InvoiceItem } from '../types';
-import { Plus, Trash2, Printer, Upload } from 'lucide-react';
+import { Plus, Trash2, Printer, Upload, Move, RotateCcw } from 'lucide-react';
 
 interface EditorPanelProps {
   data: InvoiceState;
@@ -61,6 +61,22 @@ export const EditorPanel: React.FC<EditorPanelProps> = ({ data, setData, onPrint
     }
   };
 
+  const resetLayout = () => {
+      setData(prev => ({
+          ...prev,
+          layout: {
+            logo: { x: 260, y: 40 },
+            meta: { x: 40, y: 180 },
+            customer: { x: 420, y: 180 },
+            table: { x: 40, y: 320 },
+            total: { x: 440, y: 550 },
+            terms: { x: 40, y: 650 },
+            payment: { x: 40, y: 750 },
+            company: { x: 450, y: 750 }
+          }
+      }));
+  };
+
   return (
     <div className="bg-white p-6 shadow-xl h-full overflow-y-auto border-r border-gray-200">
       <div className="flex justify-between items-center mb-6">
@@ -71,8 +87,38 @@ export const EditorPanel: React.FC<EditorPanelProps> = ({ data, setData, onPrint
             className="cursor-pointer flex items-center gap-2 bg-brand-primary text-white px-4 py-2 rounded-lg hover:bg-pink-800 transition-all active:scale-95 font-medium shadow-sm select-none"
         >
             <Printer size={18} />
-            <span>Print / PDF</span>
+            <span>Print</span>
         </button>
+      </div>
+      
+      {/* Layout Mode Toggle */}
+      <div className="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+        <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+                <Move size={18} className="text-brand-primary" />
+                <span className="font-semibold text-gray-700">Custom Layout</span>
+            </div>
+            <label className="relative inline-flex items-center cursor-pointer">
+                <input 
+                    type="checkbox" 
+                    checked={data.enableCustomLayout}
+                    onChange={(e) => setData(prev => ({ ...prev, enableCustomLayout: e.target.checked }))}
+                    className="sr-only peer"
+                />
+                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-pink-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-primary"></div>
+            </label>
+        </div>
+        <p className="text-xs text-gray-500 mb-2">
+            Enable drag & drop to position elements exactly where you want them.
+        </p>
+        {data.enableCustomLayout && (
+            <button 
+                onClick={resetLayout}
+                className="text-xs flex items-center gap-1 text-gray-500 hover:text-gray-800 underline"
+            >
+                <RotateCcw size={12} /> Reset Positions
+            </button>
+        )}
       </div>
 
       <div className="space-y-8">

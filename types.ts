@@ -28,11 +28,29 @@ export interface CompanyDetails {
   email: string;
 }
 
+export interface LayoutPosition {
+  x: number;
+  y: number;
+}
+
+export interface InvoiceLayout {
+  logo: LayoutPosition;
+  meta: LayoutPosition;
+  customer: LayoutPosition;
+  table: LayoutPosition;
+  total: LayoutPosition;
+  terms: LayoutPosition;
+  payment: LayoutPosition;
+  company: LayoutPosition;
+}
+
 export interface InvoiceState {
   invoice: InvoiceDetails;
   customer: CustomerDetails;
   items: InvoiceItem[];
   payment: PaymentDetails;
   company: CompanyDetails;
-  logoSrc?: string; // Stores the Base64 string of the uploaded logo
+  logoSrc?: string;
+  enableCustomLayout: boolean;
+  layout: InvoiceLayout;
 }
