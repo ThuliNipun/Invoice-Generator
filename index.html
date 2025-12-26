@@ -32,15 +32,46 @@
       body {
         font-family: 'Montserrat', sans-serif;
       }
-      /* Ensure background colors print correctly */
+      
+      /* Print Specific Styles for Perfect A4 */
       @media print {
+        @page {
+          size: A4;
+          margin: 0; /* Important: removes browser default headers/footers/margins */
+        }
+        
         body {
           -webkit-print-color-adjust: exact;
           print-color-adjust: exact;
-        }
-        @page {
           margin: 0;
-          size: auto;
+          padding: 0;
+          background-color: white;
+        }
+
+        /* Hide everything by default */
+        body * {
+          visibility: hidden;
+        }
+
+        /* Only show the invoice preview */
+        #invoice-preview, #invoice-preview * {
+          visibility: visible;
+        }
+
+        /* Position the preview absolutely to fill the page */
+        #invoice-preview {
+          position: fixed;
+          left: 0;
+          top: 0;
+          width: 210mm;
+          height: 297mm;
+          margin: 0;
+          padding: 20mm !important; /* Standard A4 padding */
+          border: none;
+          box-shadow: none;
+          overflow: hidden; /* Prevent spillover to page 2 */
+          background-color: #fdfbf7 !important; /* Ensure bg color prints */
+          z-index: 9999;
         }
       }
     </style>

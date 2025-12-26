@@ -11,69 +11,72 @@ export const InvoicePreview: React.FC<InvoicePreviewProps> = ({ data, calculateT
   const total = calculateTotal();
 
   return (
-    <div className="w-full max-w-[210mm] min-h-[297mm] mx-auto bg-[#fdfbf7] p-8 md:p-12 relative shadow-lg print:shadow-none text-gray-800" id="invoice-preview">
+    <div 
+      id="invoice-preview"
+      className="w-[210mm] min-h-[297mm] mx-auto bg-[#fdfbf7] p-8 md:p-12 relative shadow-lg text-gray-800 flex flex-col box-border"
+    >
       
       {/* Header / Logo */}
-      <div className="flex flex-col items-center justify-center mb-12">
+      <div className="flex flex-col items-center justify-center mb-8 shrink-0">
         {data.logoSrc ? (
             <img 
                 src={data.logoSrc} 
                 alt="H&J Cakes Logo" 
-                className="h-32 md:h-40 object-contain mb-4" 
+                className="h-28 object-contain mb-2" 
             />
         ) : (
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center select-none">
                 <div className="flex items-center justify-center">
-                    <span className="text-6xl font-extrabold text-brand-primary tracking-tighter">H</span>
+                    <span className="text-5xl font-extrabold text-brand-primary tracking-tighter">H</span>
                     <div className="flex flex-col items-center mx-1 -mt-2">
-                        <Cake size={24} className="text-brand-primary mb-1" />
-                        <span className="text-3xl font-bold text-brand-primary">&</span>
+                        <Cake size={20} className="text-brand-primary mb-1" />
+                        <span className="text-2xl font-bold text-brand-primary">&</span>
                     </div>
-                    <span className="text-6xl font-extrabold text-brand-primary tracking-tighter">J</span>
+                    <span className="text-5xl font-extrabold text-brand-primary tracking-tighter">J</span>
                 </div>
-                <span className="text-2xl font-bold text-brand-primary tracking-widest mt-0">CAKES</span>
+                <span className="text-xl font-bold text-brand-primary tracking-[0.2em] mt-0">CAKES</span>
             </div>
         )}
       </div>
 
       {/* Invoice Title & Details Grid */}
-      <div className="grid grid-cols-2 gap-8 mb-12">
+      <div className="grid grid-cols-2 gap-8 mb-8 shrink-0">
         <div>
-          <h1 className="text-4xl font-extrabold text-black mb-6 uppercase tracking-tight">INVOICE</h1>
-          <div className="space-y-1 text-lg">
-            <p><span className="text-gray-600">Invoice Number:</span> {data.invoice.number}</p>
-            <p><span className="text-gray-600">Date:</span> {data.invoice.date}</p>
+          <h1 className="text-3xl font-extrabold text-black mb-4 uppercase tracking-tight">INVOICE</h1>
+          <div className="space-y-1 text-sm md:text-base">
+            <p><span className="text-gray-600 font-medium">Invoice No:</span> <span className="font-semibold">{data.invoice.number}</span></p>
+            <p><span className="text-gray-600 font-medium">Date:</span> {data.invoice.date}</p>
           </div>
         </div>
 
         <div className="text-right sm:text-left">
-          <h3 className="text-2xl font-bold text-black mb-2">Billed To:</h3>
-          <div className="space-y-1 text-lg">
-            <p><span className="font-medium">Customer Name:</span> {data.customer.name}</p>
-            <p><span className="font-medium">Address:</span> {data.customer.address}</p>
-            <p><span className="font-medium">Phone:</span> {data.customer.phone}</p>
+          <h3 className="text-xl font-bold text-black mb-2">Billed To:</h3>
+          <div className="space-y-1 text-sm md:text-base">
+            <p className="font-bold text-gray-900">{data.customer.name}</p>
+            <p className="text-gray-600 whitespace-pre-wrap">{data.customer.address}</p>
+            <p className="text-gray-600">{data.customer.phone}</p>
           </div>
         </div>
       </div>
 
       {/* Items Table */}
-      <div className="mb-8">
+      <div className="mb-6 flex-grow">
         {/* Table Header */}
-        <div className="bg-brand-primary text-white rounded-full px-8 py-3 grid grid-cols-12 gap-4 font-semibold text-lg mb-4">
+        <div className="bg-brand-primary text-white rounded-lg px-6 py-2 grid grid-cols-12 gap-4 font-semibold text-sm mb-4 print:bg-brand-primary print:text-white print-color-adjust-exact">
           <div className="col-span-5">Description</div>
           <div className="col-span-3 text-right">Price</div>
-          <div className="col-span-2 text-center">Quantity</div>
+          <div className="col-span-2 text-center">Qty</div>
           <div className="col-span-2 text-right">Amount</div>
         </div>
 
         {/* Table Body */}
-        <div className="space-y-4 px-8">
+        <div className="space-y-3 px-2">
           {data.items.map((item) => (
-            <div key={item.id} className="grid grid-cols-12 gap-4 text-lg border-b border-gray-200 pb-2 last:border-0">
+            <div key={item.id} className="grid grid-cols-12 gap-4 text-sm md:text-base border-b border-gray-200 pb-2 last:border-0 items-center">
               <div className="col-span-5 font-medium text-gray-800">{item.description}</div>
               <div className="col-span-3 text-right text-gray-600">{item.price.toLocaleString('en-LK')}</div>
               <div className="col-span-2 text-center text-gray-600">{item.quantity}</div>
-              <div className="col-span-2 text-right font-semibold text-gray-800">Rs.{(item.price * item.quantity).toLocaleString('en-LK')}</div>
+              <div className="col-span-2 text-right font-semibold text-gray-900">Rs. {(item.price * item.quantity).toLocaleString('en-LK')}</div>
             </div>
           ))}
           {data.items.length === 0 && (
@@ -83,63 +86,64 @@ export const InvoicePreview: React.FC<InvoicePreviewProps> = ({ data, calculateT
       </div>
 
       {/* Totals Section */}
-      <div className="flex justify-end mb-16">
-        <div className="flex items-center bg-brand-primary text-white rounded-full px-8 py-4 shadow-md">
-            <span className="text-xl font-semibold mr-8">Total</span>
-            <span className="text-2xl font-bold">Rs. {total.toLocaleString('en-LK')}</span>
+      <div className="flex justify-end mb-8 shrink-0">
+        <div className="flex items-center bg-brand-primary text-white rounded-lg px-8 py-3 shadow-sm print:bg-brand-primary print:text-white print-color-adjust-exact">
+            <span className="text-lg font-semibold mr-8">Total</span>
+            <span className="text-xl font-bold">Rs. {total.toLocaleString('en-LK')}</span>
         </div>
       </div>
 
       {/* Terms */}
-      <div className="mb-12 px-2">
-          <h3 className="text-2xl font-bold text-gray-900 mb-2">Terms and Conditions</h3>
-          <p className="text-lg text-gray-600">Free purchase without receipt</p>
+      <div className="mb-8 px-2 shrink-0">
+          <h3 className="text-lg font-bold text-gray-900 mb-1">Terms and Conditions</h3>
+          <p className="text-sm text-gray-600">Free purchase without receipt</p>
       </div>
 
       {/* Footer / Payment & Contact */}
-      <div className="mt-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-end relative">
+      {/* Used margin-top-auto to push to bottom, but added print:fixed-bottom safely via flex layout */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-end relative shrink-0">
         
         {/* Payment Details Container */}
-        <div className="relative border-2 border-brand-primary rounded-[3rem] rounded-bl-none p-6 pr-12">
-            <div className="flex items-center gap-4 mb-4">
-                <h3 className="text-2xl font-bold text-black">Payment Detail:</h3>
-                <div className="bg-[#005b9f] text-white text-xs font-bold px-2 py-1 rounded select-none">
+        <div className="relative border border-brand-primary rounded-2xl rounded-bl-none p-5 pr-8 bg-white/50">
+            <div className="flex items-center gap-3 mb-3">
+                <h3 className="text-lg font-bold text-black">Payment Detail:</h3>
+                <div className="bg-[#005b9f] text-white text-[10px] font-bold px-2 py-0.5 rounded select-none print-color-adjust-exact">
                     COMMERCIAL BANK
                 </div>
             </div>
             
-            <div className="space-y-2 text-gray-800 text-lg">
-                <div className="grid grid-cols-[140px_1fr]">
-                    <span className="font-medium">Bank</span>
+            <div className="space-y-1 text-gray-800 text-sm">
+                <div className="grid grid-cols-[100px_1fr]">
+                    <span className="font-medium text-gray-600">Bank</span>
                     <span>: {data.payment.bankName}</span>
                 </div>
-                <div className="grid grid-cols-[140px_1fr]">
-                    <span className="font-medium">Account Name</span>
+                <div className="grid grid-cols-[100px_1fr]">
+                    <span className="font-medium text-gray-600">Acc Name</span>
                     <span>: {data.payment.accountName}</span>
                 </div>
-                <div className="grid grid-cols-[140px_1fr]">
-                    <span className="font-medium text-nowrap">Account Number</span>
-                    <span>: {data.payment.accountNumber}</span>
+                <div className="grid grid-cols-[100px_1fr]">
+                    <span className="font-medium text-gray-600">Acc No</span>
+                    <span className="font-mono font-medium text-base">: {data.payment.accountNumber}</span>
                 </div>
             </div>
         </div>
 
         {/* Company Contact Info */}
-        <div className="flex flex-col items-start md:items-end text-left md:text-right space-y-3 pb-4">
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">H & J Cakes</h2>
+        <div className="flex flex-col items-start md:items-end text-left md:text-right space-y-2 pb-2">
+            <h2 className="text-2xl font-bold text-gray-900 mb-1">H & J Cakes</h2>
             
-            <div className="flex items-start gap-3 md:flex-row-reverse text-gray-700">
-                <MapPin className="mt-1 flex-shrink-0" size={20} />
-                <p className="max-w-[250px]">{data.company.address}</p>
+            <div className="flex items-start gap-2 md:flex-row-reverse text-gray-700 text-sm">
+                <MapPin className="mt-0.5 flex-shrink-0 text-brand-primary" size={16} />
+                <p className="max-w-[200px] leading-tight">{data.company.address}</p>
             </div>
             
-            <div className="flex items-center gap-3 md:flex-row-reverse text-gray-700">
-                <Phone className="flex-shrink-0" size={20} />
+            <div className="flex items-center gap-2 md:flex-row-reverse text-gray-700 text-sm">
+                <Phone className="flex-shrink-0 text-brand-primary" size={16} />
                 <p>{data.company.phone}</p>
             </div>
             
-            <div className="flex items-center gap-3 md:flex-row-reverse text-gray-700">
-                <Mail className="flex-shrink-0" size={20} />
+            <div className="flex items-center gap-2 md:flex-row-reverse text-gray-700 text-sm">
+                <Mail className="flex-shrink-0 text-brand-primary" size={16} />
                 <p>{data.company.email}</p>
             </div>
         </div>
