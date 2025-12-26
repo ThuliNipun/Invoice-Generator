@@ -37,7 +37,7 @@
       @media print {
         @page {
           size: A4;
-          margin: 0; /* Important: removes browser default headers/footers/margins */
+          margin: 0;
         }
         
         body {
@@ -48,30 +48,31 @@
           background-color: white;
         }
 
-        /* Hide everything by default */
-        body * {
-          visibility: hidden;
+        /* Hide UI elements */
+        body > *:not(#root) {
+          display: none;
+        }
+        
+        #root {
+            display: block;
         }
 
-        /* Only show the invoice preview */
-        #invoice-preview, #invoice-preview * {
-          visibility: visible;
-        }
-
-        /* Position the preview absolutely to fill the page */
+        /* Target the specific preview container */
         #invoice-preview {
-          position: fixed;
-          left: 0;
-          top: 0;
-          width: 210mm;
-          height: 297mm;
-          margin: 0;
-          padding: 20mm !important; /* Standard A4 padding */
-          border: none;
-          box-shadow: none;
-          overflow: hidden; /* Prevent spillover to page 2 */
-          background-color: #fdfbf7 !important; /* Ensure bg color prints */
-          z-index: 9999;
+          width: 210mm !important;
+          min-height: 297mm !important;
+          height: auto !important;
+          margin: 0 auto !important;
+          padding: 15mm !important;
+          overflow: visible !important;
+          background-color: #fdfbf7 !important;
+          position: relative !important;
+          box-shadow: none !important;
+        }
+        
+        /* Ensure table rows don't break awkwardly (optional) */
+        tr, .item-row {
+          page-break-inside: avoid;
         }
       }
     </style>
